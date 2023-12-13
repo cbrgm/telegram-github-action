@@ -27,7 +27,7 @@ inputs:
 
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/cbrgm/telegram-github-action@v1'
+  image: 'docker://ghcr.io/cbrgm/telegram-github-action:v1'
   args:
     - --token
     - ${{ inputs.token }}
