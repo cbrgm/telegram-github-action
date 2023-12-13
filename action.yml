@@ -1,0 +1,50 @@
+name: 'Telegram Message Action'
+description: 'Send messages to a Telegram chat from GitHub Actions'
+author: 'cbrgm'
+
+inputs:
+  token:
+    description: 'Telegram authorization token'
+    required: true
+  to:
+    description: 'Unique identifier for the target chat'
+    required: true
+  message:
+    description: 'The message to send'
+    required: false
+  parse-mode:
+    description: 'Mode for parsing entities in the message text'
+    required: false
+  disable-web-page-preview:
+    description: 'Disables link previews for links in this message'
+    required: false
+  disable-notification:
+    description: 'Sends the message silently. Users will receive a notification with no sound'
+    required: false
+  protect-content:
+    description: 'Protects the contents of the sent message from forwarding and saving'
+    required: false
+
+runs:
+  using: 'docker'
+  image: 'docker://ghcr.io/cbrgm/telegram-github-action@v1'
+  args:
+    - --token
+    - ${{ inputs.token }}
+    - --to
+    - ${{ inputs.to }}
+    - --message
+    - ${{ inputs.message }}
+    - --parse-mode
+    - ${{ inputs.parse-mode }}
+    - --disable-web-page-preview
+    - ${{ inputs.disable-web-page-preview }}
+    - --disable-notification
+    - ${{ inputs.disable-notification }}
+    - --protect-content
+    - ${{ inputs.protect-content }}
+
+branding:
+  icon: briefcase
+  color: blue
+
