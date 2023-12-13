@@ -19,5 +19,6 @@ jobs:
             Tag: ${{ github.event.release.tag_name }}
             Actor: ${{ github.actor }}
             Repository: ${{ github.repository }}
-            Check it out: ${{ github.event.release.html_url }}j
+            Check it out: ${{ github.event.release.html_url }}
+
 
