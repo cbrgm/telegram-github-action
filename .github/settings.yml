@@ -1,9 +1,9 @@
 ---
 repository:
   name: telegram-github-action
-  description: Stable and fast action to automatically bump the given semver version up.
+  description: Send (text) messages to a Telegram chat from GitHub Actions
   homepage: https://cbrgm.net
-  topics: gihub-actions, github, action, go, semver, version, bump
+  topics: gihub-actions, github, action, go, telegram, message
 
   private: false
   has_issues: true
