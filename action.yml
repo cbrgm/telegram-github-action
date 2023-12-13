@@ -15,15 +15,19 @@ inputs:
   parse-mode:
     description: 'Mode for parsing entities in the message text'
     required: false
+    default: 'markdown'
   disable-web-page-preview:
     description: 'Disables link previews for links in this message'
     required: false
+    default: "false"
   disable-notification:
     description: 'Sends the message silently. Users will receive a notification with no sound'
     required: false
+    default: "false"
   protect-content:
     description: 'Protects the contents of the sent message from forwarding and saving'
     required: false
+    default: "false"
 
 runs:
   using: 'docker'
