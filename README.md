@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send Telegram Message
-        uses: cbrgm/telegram-github-action@v1
+        uses: cbrgm/telegram-github-action@latest
         with:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -56,7 +56,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Send Inline Telegram Message
-        uses: cbrgm/telegram-github-action@v1
+        uses: cbrgm/telegram-github-action@latest
         with:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -83,7 +83,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send Telegram Notification on New Release
-        uses: cbrgm/telegram-github-action@main
+        uses: cbrgm/telegram-github-action@latest
         with:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
