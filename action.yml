@@ -41,12 +41,9 @@ runs:
     - ${{ inputs.message }}
     - --parse-mode
     - ${{ inputs.parse-mode }}
-    - --disable-web-page-preview
-    - ${{ inputs.disable-web-page-preview }}
-    - --disable-notification
-    - ${{ inputs.disable-notification }}
-    - --protect-content
-    - ${{ inputs.protect-content }}
+    - --disable-web-page-preview=${{ inputs.disable-web-page-preview }}
+    - --disable-notification=${{ inputs.disable-notification }}
+    - --protect-content=${{ inputs.protect-content }}
 
 branding:
   icon: briefcase
