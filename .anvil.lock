@@ -1,6 +1,6 @@
 {
-  "generated_at": "2023-12-17T02:18:29.156699+01:00",
-  "version": "v1.1.4-dirty",
+  "generated_at": "2023-12-17T19:19:50.008229138Z",
+  "version": "1.2.1",
   "files": [
     {
       "path": ".editorconfig"
@@ -10,9 +10,6 @@
     },
     {
       "path": ".github/auto_assign.yml"
-    },
-    {
-      "path": ".github/dependabot.yml"
     },
     {
       "path": ".github/issue_template.md"
