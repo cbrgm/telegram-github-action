@@ -120,6 +120,6 @@ make build
 
 ## Contributing & License
 
-* **Contributions Welcome!**: Interested in improving or adding features? Check our [Contributing Guide](https://github.com/cbrgm/mastodon-github-action/blob/main/CONTRIBUTING.md) for instructions on submitting changes and setting up development environment.
-* **Open-Source & Free**: Developed in my spare time, available for free under [Apache 2.0 License](https://github.com/cbrgm/mastodon-github-action/blob/main/LICENSE). License details your rights and obligations.
+* **Contributions Welcome!**: Interested in improving or adding features? Check our [Contributing Guide](https://github.com/cbrgm/telegram-github-action/blob/main/CONTRIBUTING.md) for instructions on submitting changes and setting up development environment.
+* **Open-Source & Free**: Developed in my spare time, available for free under [Apache 2.0 License](https://github.com/cbrgm/telegram-github-action/blob/main/LICENSE). License details your rights and obligations.
 * **Your Involvement Matters**: Code contributions, suggestions, feedback crucial for improvement and success. Let's maintain it as a useful resource for all 🌍.
