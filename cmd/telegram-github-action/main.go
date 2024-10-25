@@ -5,8 +5,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
+	"log/slog"
 	"net/http"
+	"os"
 	"runtime"
 	"strconv"
 	"time"
@@ -41,6 +42,7 @@ type ActionInputs struct {
 	DisableWebPagePreview bool   `arg:"--disable-web-page-preview,env:DISABLE_WEB_PAGE_PREVIEW"`
 	DisableNotification   bool   `arg:"--disable-notification,env:DISABLE_NOTIFICATION"`
 	ProtectContent        bool   `arg:"--protect-content,env:PROTECT_CONTENT"`
+	DryRun                bool   `arg:"--dry-run" help:"If set, do not send a real message but print the details instead"`
 }
 
 // Version returns a formatted string with application version details.
@@ -52,45 +54,53 @@ func main() {
 	var args ActionInputs
 	arg.MustParse(&args)
 
-	log.Println("Starting Telegram GitHub Action")
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	logger.Info("Starting Telegram GitHub Action")
 
 	// Validate ParseMode
 	if args.ParseMode != "" && args.ParseMode != "markdown" && args.ParseMode != "html" {
-		log.Fatalf("Invalid ParseMode: %v. Allowed values are 'html' or 'markdown'.\n", args.ParseMode)
+		logger.Error("Invalid ParseMode", slog.String("ParseMode", args.ParseMode))
+		os.Exit(1)
 	}
 
-	// Decide whether to send a custom message or call getMe API
-	if args.Message == "" {
-		log.Println("No custom message provided, calling the getMe API")
-		if err := callTelegramAPI(args.Token, "getMe", nil); err != nil {
-			log.Fatalf("Error calling getMe API: %v\n", err)
-		}
-	} else {
-		log.Printf("Sending custom message to chat ID %s\n", args.To)
-		// Convert args.To to int64 to handle negative chat IDs
-		toInt, err := strconv.ParseInt(args.To, 10, 64)
-		if err != nil {
-			log.Fatalf("Invalid chat ID: %v\n", err)
-		}
-
-		messagePayload := TelegramMessage{
-			ChatID:                toInt,
-			Text:                  args.Message,
-			ParseMode:             args.ParseMode,
-			DisableWebPagePreview: args.DisableWebPagePreview,
-			DisableNotification:   args.DisableNotification,
-			ProtectContent:        args.ProtectContent,
-		}
-
-		if err := callTelegramAPI(args.Token, "sendMessage", messagePayload); err != nil {
-			log.Fatalf("Error sending Telegram message: %v\n", err)
-		}
-		log.Println("Message sent successfully")
+	// Convert args.To to int64 to handle negative chat IDs
+	toInt, err := strconv.ParseInt(args.To, 10, 64)
+	if err != nil {
+		logger.Error("Invalid chat ID", slog.String("ChatID", args.To), slog.Any("error", err))
+		os.Exit(1)
 	}
+
+	messagePayload := TelegramMessage{
+		ChatID:                toInt,
+		Text:                  args.Message,
+		ParseMode:             args.ParseMode,
+		DisableWebPagePreview: args.DisableWebPagePreview,
+		DisableNotification:   args.DisableNotification,
+		ProtectContent:        args.ProtectContent,
+	}
+
+	// Dry-run check
+	if args.DryRun {
+		logger.Info("Dry run enabled, message will not be sent",
+			slog.String("Message", args.Message),
+			slog.String("ParseMode", args.ParseMode),
+			slog.Bool("DisableWebPagePreview", args.DisableWebPagePreview),
+			slog.Bool("DisableNotification", args.DisableNotification),
+			slog.Bool("ProtectContent", args.ProtectContent))
+		return
+	}
+
+	// Actual API call if not in dry run
+	logger.Info("Sending custom message")
+	if err := callTelegramAPI(logger, args.Token, "sendMessage", messagePayload); err != nil {
+		logger.Error("Error sending Telegram message", slog.Any("error", err))
+		os.Exit(1)
+	}
+	logger.Info("Message sent successfully")
 }
 
 // callTelegramAPI handles calling the Telegram Bot API with the specified method and payload.
-func callTelegramAPI(token, method string, payload interface{}) error {
+func callTelegramAPI(logger *slog.Logger, token, method string, payload interface{}) error {
 	url := fmt.Sprintf("https://api.telegram.org/bot%s/%s", token, method)
 
 	var body []byte
@@ -117,7 +127,7 @@ func callTelegramAPI(token, method string, payload interface{}) error {
 	}
 	defer func() {
 		if err = resp.Body.Close(); err != nil {
-			log.Printf("Warning: error closing response body: %v\n", err)
+			logger.Warn("Error closing response body", slog.Any("error", err))
 		}
 	}()
 
@@ -130,6 +140,6 @@ func callTelegramAPI(token, method string, payload interface{}) error {
 		return fmt.Errorf("error reading response body: %w", err)
 	}
 
-	log.Printf("%s API response: %s\n", method, string(responseBody))
+	logger.Info("API response", slog.String("method", method), slog.String("response", string(responseBody)))
 	return nil
 }

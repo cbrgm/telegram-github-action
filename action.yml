@@ -28,6 +28,10 @@ inputs:
     description: 'Protects the contents of the sent message from forwarding and saving'
     required: false
     default: "false"
+  dry-run:
+    description: 'If set, do not send a real message but print the details instead'
+    required: false
+    default: "false"
 
 runs:
   using: 'docker'
@@ -43,6 +47,7 @@ runs:
     - --disable-web-page-preview=${{ inputs.disable-web-page-preview }}
     - --disable-notification=${{ inputs.disable-notification }}
     - --protect-content=${{ inputs.protect-content }}
+    - --dry-run=${{ inputs.dry-run }}
 
 branding:
   icon: briefcase
