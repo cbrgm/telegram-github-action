@@ -133,4 +133,3 @@ func callTelegramAPI(token, method string, payload interface{}) error {
 	log.Printf("%s API response: %s\n", method, string(responseBody))
 	return nil
 }
-
