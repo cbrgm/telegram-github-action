@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"runtime"
+	"strconv"
 	"time"
 
 	"github.com/alexflint/go-arg"
@@ -23,7 +24,7 @@ var (
 
 // TelegramMessage represents the payload for sending messages via the Telegram API.
 type TelegramMessage struct {
-	ChatID                string `json:"chat_id"`
+	ChatID                int64  `json:"chat_id"`
 	Text                  string `json:"text"`
 	ParseMode             string `json:"parse_mode,omitempty"`
 	DisableWebPagePreview bool   `json:"disable_web_page_preview,omitempty"`
@@ -66,14 +67,21 @@ func main() {
 		}
 	} else {
 		log.Printf("Sending custom message to chat ID %s\n", args.To)
+		// Convert args.To to int64 to handle negative chat IDs
+		toInt, err := strconv.ParseInt(args.To, 10, 64)
+		if err != nil {
+			log.Fatalf("Invalid chat ID: %v\n", err)
+		}
+
 		messagePayload := TelegramMessage{
-			ChatID:                args.To,
+			ChatID:                toInt,
 			Text:                  args.Message,
 			ParseMode:             args.ParseMode,
 			DisableWebPagePreview: args.DisableWebPagePreview,
 			DisableNotification:   args.DisableNotification,
 			ProtectContent:        args.ProtectContent,
 		}
+
 		if err := callTelegramAPI(args.Token, "sendMessage", messagePayload); err != nil {
 			log.Fatalf("Error sending Telegram message: %v\n", err)
 		}
