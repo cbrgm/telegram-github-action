@@ -17,6 +17,7 @@
 - `disable-web-page-preview`: Optional - Disables link previews.
 - `disable-notification`: Optional - Sends message silently.
 - `protect-content`: Optional - Protects message content from forwarding/saving.
+- `dry-run`: Optional - If set, do not send a real message but print the details instead.
 
 ### Workflow Usage
 
