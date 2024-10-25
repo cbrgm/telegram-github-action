@@ -35,12 +35,11 @@ runs:
   args:
     - --token
     - ${{ inputs.token }}
-    - --to
-    - ${{ inputs.to }}
     - --message
     - ${{ inputs.message }}
     - --parse-mode
     - ${{ inputs.parse-mode }}
+    - --to=${{ inputs.to }}
     - --disable-web-page-preview=${{ inputs.disable-web-page-preview }}
     - --disable-notification=${{ inputs.disable-notification }}
     - --protect-content=${{ inputs.protect-content }}
