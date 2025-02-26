@@ -26,6 +26,7 @@ var (
 // TelegramMessage represents the payload for sending messages via the Telegram API.
 type TelegramMessage struct {
 	ChatID                int64  `json:"chat_id"`
+	MessageThreadID       int64  `json:"message_thread_id,omitempty"`
 	Text                  string `json:"text"`
 	ParseMode             string `json:"parse_mode,omitempty"`
 	DisableWebPagePreview bool   `json:"disable_web_page_preview,omitempty"`
@@ -37,6 +38,7 @@ type TelegramMessage struct {
 type ActionInputs struct {
 	Token                 string `arg:"--token,env:TELEGRAM_TOKEN,required"`
 	To                    string `arg:"--to,env:TELEGRAM_TO,required"`
+	MessageThreadID       string `arg:"--thread_id,env:TELEGRAM_THREAD_ID"`
 	Message               string `arg:"--message,env:MESSAGE"`
 	ParseMode             string `arg:"--parse-mode,env:PARSE_MODE"`
 	DisableWebPagePreview bool   `arg:"--disable-web-page-preview,env:DISABLE_WEB_PAGE_PREVIEW"`
@@ -70,8 +72,18 @@ func main() {
 		os.Exit(1)
 	}
 
+	var threadID int64
+	if args.MessageThreadID != "" {
+		threadID, err = strconv.ParseInt(args.MessageThreadID, 10, 64)
+		if err != nil {
+			logger.Error("Invalid MeesageThreadID", slog.String("MessageThreadID", args.MessageThreadID), slog.Any("error", err))
+			os.Exit(1)
+		}
+	}
+
 	messagePayload := TelegramMessage{
 		ChatID:                toInt,
+		MessageThreadID:       threadID,
 		Text:                  args.Message,
 		ParseMode:             args.ParseMode,
 		DisableWebPagePreview: args.DisableWebPagePreview,
@@ -86,7 +98,8 @@ func main() {
 			slog.String("ParseMode", args.ParseMode),
 			slog.Bool("DisableWebPagePreview", args.DisableWebPagePreview),
 			slog.Bool("DisableNotification", args.DisableNotification),
-			slog.Bool("ProtectContent", args.ProtectContent))
+			slog.Bool("ProtectContent", args.ProtectContent),
+			slog.Int64("MessageThreadID", threadID))
 		return
 	}
 

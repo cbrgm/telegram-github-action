@@ -9,6 +9,9 @@ inputs:
   to:
     description: 'Unique identifier for the target chat'
     required: true
+  thread_id:
+    description: "For supergroups. Topic identifier."
+    required: false
   message:
     description: 'The message to send'
     required: false
@@ -44,6 +47,7 @@ runs:
     - --parse-mode
     - ${{ inputs.parse-mode }}
     - --to=${{ inputs.to }}
+    - --thread_id=${{ inputs.thread_id }}
     - --disable-web-page-preview=${{ inputs.disable-web-page-preview }}
     - --disable-notification=${{ inputs.disable-notification }}
     - --protect-content=${{ inputs.protect-content }}
