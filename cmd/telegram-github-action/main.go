@@ -38,7 +38,7 @@ type TelegramMessage struct {
 type ActionInputs struct {
 	Token                 string `arg:"--token,env:TELEGRAM_TOKEN,required"`
 	To                    string `arg:"--to,env:TELEGRAM_TO,required"`
-	MessageThreadID       string `arg:"--thread_id,env:TELEGRAM_THREAD_ID"`
+	MessageThreadID       string `arg:"--thread-id,env:TELEGRAM_THREAD_ID"`
 	Message               string `arg:"--message,env:MESSAGE"`
 	ParseMode             string `arg:"--parse-mode,env:PARSE_MODE"`
 	DisableWebPagePreview bool   `arg:"--disable-web-page-preview,env:DISABLE_WEB_PAGE_PREVIEW"`
@@ -76,7 +76,7 @@ func main() {
 	if args.MessageThreadID != "" {
 		threadID, err = strconv.ParseInt(args.MessageThreadID, 10, 64)
 		if err != nil {
-			logger.Error("Invalid MeesageThreadID", slog.String("MessageThreadID", args.MessageThreadID), slog.Any("error", err))
+			logger.Error("Could not parse MessageThreadID into an integer value", slog.String("MessageThreadID", args.MessageThreadID), slog.Any("error", err))
 			os.Exit(1)
 		}
 	}
