@@ -10,7 +10,7 @@ inputs:
     description: 'Unique identifier for the target chat'
     required: true
   thread-id:
-    description: "For supergroups. Topic identifier."
+    description: "For supergroups. Thread identifier."
     required: false
   message:
     description: 'The message to send'
