@@ -116,7 +116,7 @@ func main() {
 }
 
 // callTelegramAPI handles calling the Telegram Bot API with the specified method and payload.
-func callTelegramAPI(logger *slog.Logger, token, method string, payload interface{}) error {
+func callTelegramAPI(logger *slog.Logger, token, method string, payload any) error {
 	url := fmt.Sprintf("https://api.telegram.org/bot%s/%s", token, method)
 
 	var body []byte
