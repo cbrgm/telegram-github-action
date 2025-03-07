@@ -159,4 +159,3 @@ func callTelegramAPI(logger *slog.Logger, token, method string, payload interfac
 	logger.Info("API response", slog.String("method", method), slog.String("response", string(responseBody)))
 	return nil
 }
-
