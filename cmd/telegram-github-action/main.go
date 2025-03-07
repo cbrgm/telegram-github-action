@@ -10,6 +10,7 @@ import (
 	"os"
 	"runtime"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/alexflint/go-arg"
@@ -26,7 +27,7 @@ var (
 // TelegramMessage represents the payload for sending messages via the Telegram API.
 type TelegramMessage struct {
 	ChatID                int64  `json:"chat_id"`
-	MessageThreadID       int64  `json:"message_thread_id,omitempty"`
+	MessageThreadID       *int64 `json:"message_thread_id,omitempty"`
 	Text                  string `json:"text"`
 	ParseMode             string `json:"parse_mode,omitempty"`
 	DisableWebPagePreview bool   `json:"disable_web_page_preview,omitempty"`
@@ -72,13 +73,15 @@ func main() {
 		os.Exit(1)
 	}
 
-	var threadID int64
-	if args.MessageThreadID != "" {
-		threadID, err = strconv.ParseInt(args.MessageThreadID, 10, 64)
+	// Process MessageThreadID if it's not empty or just whitespace
+	var threadID *int64 = nil
+	if trimmedThreadID := strings.TrimSpace(args.MessageThreadID); trimmedThreadID != "" {
+		parsedThreadID, err := strconv.ParseInt(trimmedThreadID, 10, 64)
 		if err != nil {
 			logger.Error("Could not parse MessageThreadID into an integer value", slog.String("MessageThreadID", args.MessageThreadID), slog.Any("error", err))
 			os.Exit(1)
 		}
+		threadID = &parsedThreadID
 	}
 
 	messagePayload := TelegramMessage{
@@ -99,7 +102,7 @@ func main() {
 			slog.Bool("DisableWebPagePreview", args.DisableWebPagePreview),
 			slog.Bool("DisableNotification", args.DisableNotification),
 			slog.Bool("ProtectContent", args.ProtectContent),
-			slog.Int64("MessageThreadID", threadID))
+		)
 		return
 	}
 
