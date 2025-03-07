@@ -46,8 +46,9 @@ runs:
     - ${{ inputs.message }}
     - --parse-mode
     - ${{ inputs.parse-mode }}
+    - --thread-id
+    - ${{ inputs.thread-id }}
     - --to=${{ inputs.to }}
-    - --thread-id=${{ inputs.thread-id }}
     - --disable-web-page-preview=${{ inputs.disable-web-page-preview }}
     - --disable-notification=${{ inputs.disable-notification }}
     - --protect-content=${{ inputs.protect-content }}
