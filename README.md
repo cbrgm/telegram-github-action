@@ -12,6 +12,8 @@
 
 - `token`: **Required** - Telegram bot's authorization token. Use GitHub secrets.
 - `to`: **Required** - Unique identifier or username of the target Telegram chat.
+- `thread-id`: (Optional) Thread identifier in a Telegram supergroup.
+    - The message won’t be sent if `to` isn’t a supergroup and `thread-id` is set.
 - `message`: Optional - Text message to send. If omitted, bot's information is fetched.
 - `parse-mode`: Optional - Mode for parsing text entities (`markdown` or `html`).
 - `disable-web-page-preview`: Optional - Disables link previews.
@@ -111,6 +113,9 @@ curl https://api.telegram.org/bot<token>/getUpdates
 ```
 Replace <token> with your bot's token to find your `chat_id` (`TELEGRAM_CHAT_ID`).
 
+
+### Obtaining the Thread ID
+The easiest way to get the thread ID is as follows: Post a message in that thread, then right-click it and choose Copy Message Link. Paste it onto a scratchpad and you will notice that it has the following structure https://t.me/c/XXXXXXXXXX/YY/ZZ . The thread ID is YY (integer).
 ### Local Development
 
 You can build this action from source using `Go`:
