@@ -39,7 +39,7 @@ jobs:
         run: make release
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@d5382d3e6f2fa7bd53cb749d33091853d4985daf # v2.3.0
+        uses: softprops/action-gh-release@f3cad8bcbf209fe591aa1823e372c5d96b7fc800 # v2.3.1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           generate_release_notes: true
