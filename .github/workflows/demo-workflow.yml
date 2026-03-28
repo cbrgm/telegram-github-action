@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send Telegram Message
-        uses: cbrgm/telegram-github-action@0c79fb2d75d35870f753ace387d5bdb3fc6bc127 # main
+        uses: cbrgm/telegram-github-action@733b2c5a85c8539a57386b995fd2dcedec1baca3 # main
         with:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
