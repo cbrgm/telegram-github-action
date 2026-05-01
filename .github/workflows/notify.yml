@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send Telegram Notification on new release
-        uses: cbrgm/telegram-github-action@14bbb5d52c0dddd791c3bc9b2f1c4820da59395b # v1.3.14
+        uses: cbrgm/telegram-github-action@bd85ecf48b5b5c48b033a5ade308ac31a2b4e79a # v1.4.0
         with:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
