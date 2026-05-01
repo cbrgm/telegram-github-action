@@ -1,5 +1,5 @@
 name: 'Telegram Message Action'
-description: 'Send messages to a Telegram chat from GitHub Actions'
+description: 'Send messages and media to a Telegram chat from GitHub Actions'
 author: 'cbrgm'
 
 inputs:
@@ -13,12 +13,18 @@ inputs:
     description: "For supergroups. Thread identifier."
     required: false
   message:
-    description: 'The message to send'
+    description: 'The message to send (used as caption when media is provided)'
     required: false
   parse-mode:
-    description: 'Mode for parsing entities in the message text'
+    description: 'Mode for parsing entities in the message text or caption'
     required: false
     default: 'markdown'
+  media:
+    description: 'Media to send. Can be a local file path, an HTTP URL, or a Telegram file_id'
+    required: false
+  media-type:
+    description: 'Type of media to send. One of: photo, video, audio, document, animation, voice, sticker'
+    required: false
   disable-web-page-preview:
     description: 'Disables link previews for links in this message'
     required: false
@@ -48,6 +54,10 @@ runs:
     - ${{ inputs.parse-mode }}
     - --thread-id
     - ${{ inputs.thread-id }}
+    - --media
+    - ${{ inputs.media }}
+    - --media-type
+    - ${{ inputs.media-type }}
     - --to=${{ inputs.to }}
     - --disable-web-page-preview=${{ inputs.disable-web-page-preview }}
     - --disable-notification=${{ inputs.disable-notification }}
