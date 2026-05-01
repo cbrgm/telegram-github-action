@@ -415,11 +415,6 @@ func TestCallTelegramAPI_SendMessage(t *testing.T) {
 		ParseMode: "markdown",
 	}
 
-	serverURL := strings.TrimPrefix(server.URL, "http://")
-	originalURL := "https://api.telegram.org/bot"
-	_ = originalURL
-	_ = serverURL
-
 	err := callTelegramAPI(logger, "testtoken", "sendMessage", msg)
 	if err != nil {
 		if strings.Contains(err.Error(), "connection refused") {
